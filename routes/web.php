@@ -11,3 +11,5 @@ Route::get('/', function () {
 
        return view('portada', ['posts' => $posts]);
    });
+
+Route::get('/contacto', fn () => view('contacto'));
