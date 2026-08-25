@@ -1,0 +1,8 @@
+[90m= [39m[34;4mApp\Models\Post[39;24m {#7838
+    [34mtitulo[39m: [32m"[39m[32mAviso de prueba[39m[32m"[39m,
+    [34mcontenido[39m: [32m"[39m[32mCreado desde Tinker.[39m[32m"[39m,
+    [34mcategoria_id[39m: [35m1[39m,
+    [34mupdated_at[39m: [32m"[39m[32m2026-08-24 20:26:38[39m[32m"[39m,
+    [34mcreated_at[39m: [32m"[39m[32m2026-08-24 20:26:38[39m[32m"[39m,
+    [34mid[39m: [35m9[39m,
+  }
