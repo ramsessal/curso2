@@ -79,7 +79,7 @@ La tabla `users` existe desde que nació tu proyecto (viene en el esqueleto de L
    ```
    Qué hace cada pieza:
    - **`Auth::attempt($datos)`** busca el usuario por correo y compara la contraseña **contra el hash** guardado (nunca se guarda en claro). Devuelve true o false.
-   - **`session()->regenerate()`** cambia el identificador de sesión al entrar. Es la defensa contra el robo de sesión (session fixation); dos líneas que en un sistema real valen oro.
+   - **`session()->regenerate()`** cambia el identificador de sesión al entrar. Es la defensa estándar contra la fijación de sesión: sin esas dos líneas, el identificador que existía antes de entrar seguiría siendo válido.
    - **`redirect()->intended('/')`** te lleva a donde ibas antes de que te pidieran login.
 
 5. Las rutas, en `routes/web.php`:
