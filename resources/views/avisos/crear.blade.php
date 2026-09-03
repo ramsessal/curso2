@@ -3,7 +3,7 @@
 @section('titulo', 'Nuevo aviso')
 
 @section('contenido')
-    <form method="POST" action="{{ route('avisos.store') }}" class="max-w-lg mx-auto p-8 bg-white rounded-lg shadow mt-8">
+    <form method="POST" action="/avisos" class="max-w-lg mx-auto p-8 bg-white rounded-lg shadow mt-8">
         @csrf
 
         <label class="block text-sm font-medium text-gray-700 mb-1">Título</label>

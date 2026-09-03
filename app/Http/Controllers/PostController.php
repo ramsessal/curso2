@@ -10,15 +10,14 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::publicados()->with('categoria')->latest()->get();
+        $posts = Post::with('categoria')->latest()->get();
 
         return view('portada', ['posts' => $posts]);
     }
 
     public function create()
     {
-        return view('avisos.crear', [
-            'categorias' => Categoria::orderBy('nombre')->get()
+        return view('avisos.crear', ['categorias' => Categoria::orderBy('nombre')->get()
         ]);
     }
 
