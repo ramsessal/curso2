@@ -11,11 +11,16 @@ class Post extends Model
 {
     use SoftDeletes;
     
-    protected $fillable = ['titulo', 'contenido', 'categoria_id', 'publicado'];
+    protected $fillable = ['titulo', 'contenido', 'categoria_id', 'publicado', 'user_id'];
 
         public function categoria()
         {
             return $this->belongsTo(Categoria::class);
+        }
+
+        public function user()
+        {
+            return $this->belongsTo(User::class);
         }
 
         protected $casts = ['publicado' => 'boolean'];
