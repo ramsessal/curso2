@@ -26,7 +26,14 @@
                        <h2 class="text-xl font-semibold text-gray-900">{{ $post->titulo }}</h2>
                        <p class="text-gray-600 mt-2">{{ Str::limit($post->contenido, 90) }}</p>
                        <p class="text-gray-400 text-xs mt-4">{{ $post->fecha }}</p>
-                       <a href="{{ route('avisos.edit', ['post' => $post], false) }}" class="text-blue-700 text-sm font-semibold hover:underline mt-4 inline-block">Editar</a>
+                       <div class="mt-4 flex items-center justify-between gap-4">
+                           <a href="{{ route('avisos.edit', ['post' => $post], false) }}" class="text-blue-700 text-sm font-semibold hover:underline">Editar</a>
+                           <form action="{{ route('avisos.destroy', ['post' => $post], false) }}" method="POST" onsubmit="return confirm('¿Seguro que quieres eliminar este aviso?')">
+                               @csrf
+                               @method('DELETE')
+                               <button type="submit" class="text-red-700 text-sm font-semibold hover:underline">Eliminar</button>
+                           </form>
+                       </div>
                    </article>
                @endforeach
            </div>

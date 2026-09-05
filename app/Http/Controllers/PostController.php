@@ -54,6 +54,13 @@ class PostController extends Controller
 
         return redirect()->route('avisos.index');
     }
+
+    public function destroy(Post $post)
+    {
+        $post->delete();
+
+        return redirect()->route('avisos.index');
+    }
 }
 
 
