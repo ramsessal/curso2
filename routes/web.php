@@ -4,7 +4,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => redirect()->route('avisos.index'))->name('home');
+Route::get('/', fn () => response('', 302)->header('Location', '/avisos'))->name('home');
 
 Route::get('/avisos', [PostController::class, 'index'])->name('avisos.index');
 
@@ -18,7 +18,7 @@ Route::put('/avisos/{post}', [PostController::class, 'update'])->name('avisos.up
 Route::delete('/avisos/{post}', [PostController::class, 'destroy'])->name('avisos.destroy');
 
 Route::get('/contacto', fn () => view('contacto'))->name('contacto');
-Route::post('/contacto', fn () => redirect()->route('contacto')->with('ok', 'Mensaje enviado'))->name('contacto.store');
+Route::post('/contacto', fn () => response('', 302)->header('Location', '/contacto'))->name('contacto.store');
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'entrar'])->name('login.entrar');
 Route::post('/logout', [LoginController::class, 'salir'])->name('logout');
