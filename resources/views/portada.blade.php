@@ -12,6 +12,8 @@
                </a>
         </div>
 
+        <livewire:buscador-avisos />
+
        <div class="max-w-4xl mx-auto p-8">
            <div class="mb-6 flex justify-center">
               
