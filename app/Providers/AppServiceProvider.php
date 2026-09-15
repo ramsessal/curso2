@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Foundation\Console\ServeCommand;
 use Illuminate\Http\Middleware\TrustProxies;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Gate::define('ver-panel', fn (User $user) => $user->rol === 'admin');
         $this->urlsPublicasEnCodespaces();
     }
 
