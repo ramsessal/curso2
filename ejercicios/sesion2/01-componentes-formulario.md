@@ -111,7 +111,7 @@ Estos son los 3 archivos de la portada, completos. En clase los armamos paso a p
   }
   ```
   y ya puedes usar `bg-marca`, `text-marca`, `hover:bg-marca/90` en toda la app. Cámbiale el color al hero y al botón.
-- **Estados de error.** Simula la clase de error que conectarás con `@error` en el alta de avisos (`05-alta-avisos.md`, en la tarea):
+- **Estados de error.** Simula la clase de error que conectarás con `@error` en el CRUD de avisos (`05-crud-avisos.md`, en la tarea):
   input inválido = `border-red-500 focus:ring-red-200` + mensaje `text-red-600 text-sm mt-1`.
 - Extrae un componente `<x-campo>` con `@props(['label', 'name', 'type' => 'text'])` para no repetir label+input.
 

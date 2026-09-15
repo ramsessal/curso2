@@ -3,16 +3,38 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Str;
+
 
 class Post extends Model
 {
-    use SoftDeletes;
-    protected $fillable = ['titulo', 'contenido', 'categoria_id', 'publicado', 'user_id'];
+    use HasFactory, SoftDeletes;
 
-    protected $casts = ['publicado' => 'boolean'];
+    protected $fillable = ['titulo', 'slug', 'resumen', 'contenido', 'categoria_id', 'publicado', 'publicado_en', 'user_id', 'destinatarios', 'notificados'];
+
+    protected $casts = [
+        'publicado' => 'boolean',
+        'publicado_en' => 'datetime',
+    ];
+
+    protected function resumen(): Attribute
+    {
+        return Attribute::get(fn (?string $value): string =>
+            $value ?: Str::limit($this->contenido ?? '', 160)
+        );
+    }
+
+    protected function esNuevo(): Attribute
+    {
+        return Attribute::get(fn () =>
+            $this->publicado
+            && $this->created_at->gt(now()->subDays(7))
+        );
+    }
 
     public function categoria()
     {
@@ -24,33 +46,18 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function etiquetas()
-    {
-        return $this->belongsToMany(Etiqueta::class);
-    }
-
-    public function scopePublicados($query)
+    public function scopePublicados(Builder $query)
     {
         return $query->where('publicado', true);
     }
 
-    public function scopeDeCategoria($query, $categoriaId)
+    public function scopeDeCategoria(Builder $query, int $categoriaId)
     {
         return $query->where('categoria_id', $categoriaId);
     }
 
-    protected function resumen(): Attribute
+    public function etiquetas()
     {
-        return Attribute::get(
-            fn () => Str::limit($this->contenido, 90)
-        );
-    }
-
-    protected function esNuevo(): Attribute
-    {
-        return Attribute::get(fn () =>
-            $this->publicado
-            && $this->created_at->gt(now()->subDays(7))
-        );
+        return $this->belongsToMany(Etiqueta::class);
     }
 }

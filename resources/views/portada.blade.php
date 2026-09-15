@@ -16,6 +16,12 @@
         <p class="max-w-4xl mx-auto mt-4 bg-green-100 text-green-800 rounded-lg px-4 py-2">{{ session('ok') }}</p>
     @endif
 
+    <div class="max-w-4xl mx-auto p-8 pb-4">
+        @livewire('buscador-avisos')
+    </div>
+
+    <livewire:buscador-avisos />
+
     <div class="max-w-4xl mx-auto p-8">
         <div class="grid md:grid-cols-2 gap-4">
             @foreach ($posts as $post)
