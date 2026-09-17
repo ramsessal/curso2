@@ -1,19 +1,25 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Categoria;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\App\PostResource;
 use App\Models\Post;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request;                    
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
-    public function index()
-    {
-        $posts = Post::with('categoria')->latest()->get();
+   public function index(Request $request)
+{
+    $avisos = Post::publicados()
+        ->with(['categoria', 'user'])
+        ->when($request->categoria, fn ($q, $id) => $q->deCategoria($id))
+        ->latest()
+        ->paginate(10);
 
-        return view('portada', ['posts' => $posts]);
-    }
+    return PostResource::collection($avisos);
+}
 
     public function create()
     {
