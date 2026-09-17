@@ -29,18 +29,42 @@ class PostController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $datos = $request->validate([
-            'titulo' => ['required', 'max:120'],
-            'contenido' => ['required'],
-            'categoria_id' => ['required', 'exists:categorias,id'],
-        ]);
+{
+    Gate::authorize('create', Post::class);
 
-        Post::create($datos);
+   $datos = $request->validate([
+    'email' => ['required', 'email'],
+    'password' => ['required'],
+    'dispositivo' => ['required'],
+]);
 
-        return redirect()->route('avisos.index');
-    }
+$usuario = User::where('email', $datos['email'])->first();
 
+if (! $usuario || ! Hash::check($datos['password'], $usuario->password)) {
+    throw ValidationException::withMessages([
+        'email' => 'Esas credenciales no coinciden.',
+    ]);
+}
+
+return [
+    'token' => $usuario->createToken($datos['dispositivo'])
+                       ->plainTextToken,
+];
+
+    $post = Post::create($datos);
+
+    return (new PostResource($post->load(['categoria', 'user'])))
+        ->response()
+        ->setStatusCode(201);
+}
+
+public function destroy(Post $post)
+{
+    Gate::authorize('delete', $post);
+    $post->delete();
+
+    return response()->noContent();   // 204
+}
     public function edit(Post $post)
     {
         return view('avisos.editar', [
@@ -62,12 +86,6 @@ class PostController extends Controller
         return redirect()->route('avisos.index');
     }
 
-    public function destroy(Post $post)
-    {
-        $post->delete();
-
-        return redirect()->route('avisos.index');
-    }
-}
+   }
 
 
