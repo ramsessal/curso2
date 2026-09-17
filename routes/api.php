@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Http\Controllers\Api\TokenController;
-use Illuminate\Http\Request;
 
 Route::post('/token', [TokenController::class, 'crear']);
 Route::middleware('auth:sanctum')->group(function () {
