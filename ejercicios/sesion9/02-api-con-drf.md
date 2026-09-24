@@ -246,32 +246,32 @@ Con el servidor corriendo, prueba cada caso y **anota qué respondió**:
 
 ```bash
 # 1. leer sin token
-curl -i -s http://localhost:8001/api/avisos/ | head -1
+curl -i -s http://localhost:8002/api/avisos/ | head -1
 
 # 2. crear sin token
-curl -i -s -X POST http://localhost:8001/api/avisos/ \
+curl -i -s -X POST http://localhost:8002/api/avisos/ \
   -H 'Content-Type: application/json' \
   -d '{"titulo":"x","contenido":"y","categoria_id":1}' | head -1
 
 # 3. crear con el token del EDITOR (el aviso queda a su nombre)
-curl -i -s -X POST http://localhost:8001/api/avisos/ \
+curl -i -s -X POST http://localhost:8002/api/avisos/ \
   -H "Authorization: Token $TOKEN_EDITOR" -H 'Content-Type: application/json' \
   -d '{"titulo":"Mi primer aviso en Django","contenido":"hola","categoria_id":1}' | head -1
 
 # 4. crear con el cuerpo vacio
-curl -s -X POST http://localhost:8001/api/avisos/ \
+curl -s -X POST http://localhost:8002/api/avisos/ \
   -H "Authorization: Token $TOKEN_EDITOR" -H 'Content-Type: application/json' -d '{}'
 
 # 5. el EDITOR borra un aviso del admin, ajeno para el
-curl -i -s -X DELETE http://localhost:8001/api/avisos/2/ \
+curl -i -s -X DELETE http://localhost:8002/api/avisos/2/ \
   -H "Authorization: Token $TOKEN_EDITOR" | head -1
 
 # 6. el EDITOR borra el aviso que acaba de crear en el caso 3
-curl -i -s -X DELETE http://localhost:8001/api/avisos/3/ \
+curl -i -s -X DELETE http://localhost:8002/api/avisos/3/ \
   -H "Authorization: Token $TOKEN_EDITOR" | head -1
 
 # 7. el ADMIN borra ese mismo aviso ajeno del caso 5
-curl -i -s -X DELETE http://localhost:8001/api/avisos/2/ \
+curl -i -s -X DELETE http://localhost:8002/api/avisos/2/ \
   -H "Authorization: Token $TOKEN" | head -1
 ```
 

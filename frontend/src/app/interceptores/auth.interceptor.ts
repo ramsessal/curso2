@@ -19,7 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (token && !request.url.includes('/api/token')) {
       const clon = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Token ${token}`
         }
       });
       return next.handle(clon);

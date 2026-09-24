@@ -15,7 +15,8 @@ services:
     volumes:
       - .:/app
     ports:
-      - "8001:8000"       
+      - "8001:8000"      # Laravel
+      - "8002:8001"      # API Django
     command: php artisan serve --host=0.0.0.0
 
   vite:

@@ -33,8 +33,8 @@ export class AvisoNuevoComponent {
       },
       error: (e: HttpErrorResponse) => {
         this.enviando = false;
-        if (e.status === 422) {
-          this.errores = e.error.errors;
+        if (e.status === 400) {
+          this.errores = e.error;
         } else {
           this.mensaje = `${e.status} · tu API no lo creó`;
         }

@@ -11,18 +11,16 @@ export class AvisosService {
   constructor(private http: HttpClient) {}
 
   listar(): Observable<Aviso[]> {
-    return this.http.get<{ data: Aviso[] }>('/api/avisos').pipe(
-      map(respuesta => respuesta.data)
+    return this.http.get<{ results: Aviso[] }>('/api/avisos/').pipe(
+      map(respuesta => respuesta.results)
     );
   }
 
   crear(aviso: NuevoAviso): Observable<Aviso> {
-    return this.http.post<{ data: Aviso }>('/api/avisos', aviso).pipe(
-      map(respuesta => respuesta.data)
-    );
+    return this.http.post<Aviso>('/api/avisos/', aviso);
   }
 
   borrar(id: number): Observable<void> {
-    return this.http.delete<void>(`/api/avisos/${id}`);
+    return this.http.delete<void>(`/api/avisos/${id}/`);
   }
 }
