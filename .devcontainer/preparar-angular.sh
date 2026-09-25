@@ -9,6 +9,9 @@
 # Es IDEMPOTENTE: si ya las tienes, no hace nada.
 #
 #   bash .devcontainer/preparar-angular.sh
+#
+# El comando se ejecuta dentro del servicio Docker `angular`, no hace falta
+# tener npm instalado en el host.
 set -e
 
 cd "$(dirname "$0")/.."
@@ -21,8 +24,8 @@ if [ ! -f frontend/package.json ]; then
     exit 1
 fi
 
-if ! command -v npm >/dev/null 2>&1; then
-    echo "No encuentro npm. Este script corre dentro de tu Codespace o del contenedor del curso."
+if ! command -v docker >/dev/null 2>&1; then
+    echo "No encuentro Docker. Arranca Docker y vuelve a ejecutar este script."
     exit 1
 fi
 
@@ -31,7 +34,8 @@ cd frontend
 echo ""
 echo "=== Dependencias de Angular ==="
 if [ -f node_modules/@angular/core/package.json ]; then
-    echo "  [ya existe] Angular $(node -p "require('./node_modules/@angular/core/package.json').version")"
+    version=$(docker compose run --rm angular node -p "require('./node_modules/@angular/core/package.json').version")
+    echo "  [ya existe] Angular ${version}"
 else
     echo "  Instalando: baja unos 300 MB y tarda un poco."
     echo "  npm va a imprimir avisos de paquetes viejos (deprecated). Son de las"
@@ -39,9 +43,9 @@ else
     echo ""
     # npm ci instala EXACTO lo que dice package-lock.json: todo el grupo queda
     # con las mismas versiones.
-    npm ci --no-audit --no-fund
+    docker compose run --rm angular npm ci --no-audit --no-fund
     echo ""
-    echo "  [instalado] Angular $(node -p "require('./node_modules/@angular/core/package.json').version")"
+    echo "  [instalado] Dependencias de Angular"
 fi
 
 # Angular le pide los datos a tu API de Laravel: si falta, se avisa aqui.
@@ -59,11 +63,10 @@ fi
 
 echo ""
 echo "Listo. Para arrancar tu aplicacion de Angular, en OTRA terminal:"
-echo "    cd frontend"
-echo "    npm start"
+echo "    docker compose up angular"
 echo ""
-echo "Y abre el puerto 4200. Deja corriendo composer run dev en la primera:"
-echo "Angular le pide los datos a tu API de Laravel."
+echo "Abre el puerto 4200. Angular se conecta al servicio app de Laravel."
+echo "La API queda disponible en el puerto 8001 del host."
 echo ""
 echo "Nota: al arrancar, Angular muestra un aviso en amarillo de que es un servidor"
 echo "solo para desarrollo. Es esperado: compila y sirve igual."
