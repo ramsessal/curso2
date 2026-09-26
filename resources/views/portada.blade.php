@@ -15,6 +15,12 @@
         <livewire:buscador-avisos />
 
        <div class="max-w-4xl mx-auto p-8">
+               @if (session('ok'))
+                   <div class="mb-6 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-green-800">
+                       {{ session('ok') }}
+                   </div>
+               @endif
+
            <div class="mb-6 flex justify-center">
               
            </div>

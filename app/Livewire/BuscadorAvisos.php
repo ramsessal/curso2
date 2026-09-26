@@ -16,7 +16,14 @@ class BuscadorAvisos extends Component
 
     public function render()
     {
-        $posts = Post::where('titulo', 'like', "%{$this->busqueda}%")->get();
+        $posts = Post::publicados()
+            ->with('categoria')
+            ->when(
+                trim($this->busqueda) !== '',
+                fn ($query) => $query->where('titulo', 'like', "%{$this->busqueda}%")
+            )
+            ->latest()
+            ->get();
 
         return view('livewire.buscador-avisos', [
             'posts' => $posts,

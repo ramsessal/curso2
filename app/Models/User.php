@@ -8,6 +8,12 @@ use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\HasApiTokens;   // arriba, junto a los otros use
+
+class User extends Authenticatable
+{
+    use HasApiTokens, HasFactory, Notifiable;
+
 
 class User extends Authenticatable implements FilamentUser
 {

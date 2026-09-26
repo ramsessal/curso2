@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\EnviarAvisoPorCorreo;
 use App\Models\Categoria;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -29,42 +30,30 @@ class PostController extends Controller
     }
 
     public function store(Request $request)
-{
-    Gate::authorize('create', Post::class);
+    {
+        $datos = $request->validate([
+            'titulo' => ['required', 'max:120'],
+            'contenido' => ['required'],
+            'categoria_id' => ['required', 'exists:categorias,id'],
+        ]);
 
-   $datos = $request->validate([
-    'email' => ['required', 'email'],
-    'password' => ['required'],
-    'dispositivo' => ['required'],
-]);
+        $post = Post::create($datos);
+        EnviarAvisoPorCorreo::dispatch($post);
 
-$usuario = User::where('email', $datos['email'])->first();
+        return redirect()
+            ->route('avisos.index')
+            ->with('ok', "Aviso #{$post->id} creado correctamente.");
+    }
 
-if (! $usuario || ! Hash::check($datos['password'], $usuario->password)) {
-    throw ValidationException::withMessages([
-        'email' => 'Esas credenciales no coinciden.',
-    ]);
-}
+    public function destroy(Post $post)
+    {
+        $id = $post->id;
+        $post->delete();
 
-return [
-    'token' => $usuario->createToken($datos['dispositivo'])
-                       ->plainTextToken,
-];
-
-    $post = Post::create($datos);
-
-    return (new PostResource($post->load(['categoria', 'user'])))
-        ->response()
-        ->setStatusCode(201);
-}
-
-public function destroy(Post $post)
-{
-    Gate::authorize('delete', $post);
-    $post->delete();
-
-    return response()->noContent();   // 204
-}
+        return redirect()
+            ->route('avisos.index')
+            ->with('ok', "Aviso #{$id} eliminado correctamente.");
+    }
     public function edit(Post $post)
     {
         return view('avisos.editar', [
@@ -86,6 +75,6 @@ public function destroy(Post $post)
         return redirect()->route('avisos.index');
     }
 
-   }
+}
 
 

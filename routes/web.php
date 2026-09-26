@@ -4,13 +4,14 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', fn () => redirect()->route('avisos.index'))->name('home');
+Route::get('/', [PostController::class, 'index'])->name('home');
 
 Route::get('/avisos', [PostController::class, 'index'])->name('avisos.index');
 
 Route::get('/contacto', fn () => view('contacto'));
 
 Route::get('/avisos/crear', [PostController::class, 'create'])->name('avisos.create');
+Route::get('/avisos/create', [PostController::class, 'create']);
 Route::post('/avisos', [PostController::class, 'store'])->name('avisos.store');
 
 Route::get('/avisos/{post}/editar', [PostController::class, 'edit'])->name('avisos.edit');

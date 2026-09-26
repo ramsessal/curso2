@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 // app/Models/Categoria.php
 class Categoria extends Model
 {
