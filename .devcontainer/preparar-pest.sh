@@ -22,11 +22,11 @@ if [ -f vendor/bin/pest ]; then
     echo "  [ya existe] $(./vendor/bin/pest --version 2>/dev/null | tr -d '\n' | sed 's/\x1b\[[0-9;]*m//g')"
 else
     echo "  Instalando (tarda un poco, esta bajando el paquete)..."
-    # Las versiones van fijas a proposito: son las que corren en el sistema
-    # real de la dependencia (Pest 3 sobre PHPUnit 11). Pest 5 ya existe, pero
-    # pide PHP 8.4 y cambia cosas; sin fijar, cada quien acabaria con una
-    # version distinta segun el PHP de su contenedor.
-    composer require "pestphp/pest:^3.8" "pestphp/pest-plugin-laravel:^3.2" --dev --with-all-dependencies --no-interaction
+    # Las versiones van fijas a proposito para mantener compatibilidad con este
+    # stack del curso: Laravel 13 + PHPUnit 12 sobre PHP 8.3.
+    # Pest 3 exige PHPUnit 11 y su plugin de Laravel 3 no soporta Laravel 13.
+    # Pest 5 exige PHP 8.4. Por eso aqui usamos la rama 4.
+    composer require "pestphp/pest:^4" "pestphp/pest-plugin-laravel:^4" --dev --with-all-dependencies --no-interaction
 fi
 
 echo ""

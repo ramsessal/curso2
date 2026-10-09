@@ -56,7 +56,17 @@ class AppServiceProvider extends ServiceProvider
 
         if ($codespace = getenv('CODESPACE_NAME')) {
             $dominio = getenv('GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN') ?: 'app.github.dev';
-            $raiz = "https://{$codespace}-8000.{$dominio}";
+
+            // Si llega un host publico reenviado, se usa tal cual para no
+            // acoplar la app a un puerto fijo (8000/8001/etc.).
+            $hostReenviado = (string) (request()->headers->get('x-forwarded-host') ?: request()->getHost());
+
+            if ($hostReenviado !== '' && str_contains($hostReenviado, ".{$dominio}")) {
+                $raiz = "https://{$hostReenviado}";
+            } else {
+                $puerto = getenv('APP_PORT') ?: '8000';
+                $raiz = "https://{$codespace}-{$puerto}.{$dominio}";
+            }
         } elseif (str_contains($appUrl = (string) config('app.url'), '.app.github.dev')) {
             // Respaldo: si la variable no llego pero el .env ya trae la direccion
             // publica, se usa esa. El .env si se lee dentro del proceso hijo,
