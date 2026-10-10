@@ -1,0 +1,21 @@
+.panel {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  background: #fff;
+}
+
+.campo {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.error {
+  color: #b91c1c;
+  font-size: 0.875rem;
+}
+
+.nota {
+  color: #374151;
+}
