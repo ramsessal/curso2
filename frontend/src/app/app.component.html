@@ -1,9 +1,12 @@
 <header class="barra">
   <span class="marca">{{ titulo }}</span>
-  <span class="lema">Un frontend en Angular que habla con tu API de Laravel</span>
+  <span class="lema">Un frontend en Angular que habla con tu API de Django</span>
 </header>
 
 <main class="contenido">
-  <!-- Aqui van tus componentes. Por ejemplo: <app-avisos-lista></app-avisos-lista> -->
-  <p class="vacio">Tu aplicación de Angular ya arranca. Los componentes los creas en la sesión.</p>
+  <app-practica></app-practica>
+  <app-entrar></app-entrar>
+  <router-outlet></router-outlet>
+  <app-aviso-nuevo (creado)="lista.cargar()"></app-aviso-nuevo>
+  <app-avisos-lista #lista></app-avisos-lista>
 </main>

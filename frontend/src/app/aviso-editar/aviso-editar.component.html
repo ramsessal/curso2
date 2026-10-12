@@ -1,0 +1,30 @@
+<section *ngIf="cargando" class="panel">
+  <p>Cargando aviso...</p>
+</section>
+
+<section *ngIf="!cargando && mensaje" class="panel mal">
+  <p>{{ mensaje }}</p>
+</section>
+
+<section *ngIf="!cargando && !mensaje" class="panel">
+  <h2>Editar aviso</h2>
+
+  <form [formGroup]="form" (ngSubmit)="guardar()">
+    <div class="campo">
+      <label for="titulo">Título</label>
+      <input id="titulo" formControlName="titulo">
+    </div>
+
+    <div class="campo">
+      <label for="contenido">Contenido</label>
+      <textarea id="contenido" formControlName="contenido"></textarea>
+    </div>
+
+    <div class="campo">
+      <label for="categoria">Categoría</label>
+      <input id="categoria" type="number" formControlName="categoria_id">
+    </div>
+
+    <button type="submit" [disabled]="enviando">Guardar</button>
+  </form>
+</section>

@@ -1,0 +1,20 @@
+<section *ngIf="cargando" class="panel">
+  <p>Cargando aviso...</p>
+</section>
+
+<section *ngIf="!cargando && error" class="panel mal">
+  <p>{{ error }}</p>
+</section>
+
+<section *ngIf="!cargando && aviso" class="panel">
+  <div class="fila" style="justify-content: space-between; align-items: center;">
+    <h2>{{ aviso.titulo }}</h2>
+    <div class="fila">
+      <button *ngIf="sesion.token" class="sec" [routerLink]="['/avisos', aviso.id, 'editar']">Editar este aviso</button>
+      <button class="sec" (click)="cerrar()">Cerrar</button>
+    </div>
+  </div>
+
+  <p>{{ aviso.contenido }}</p>
+  <small>{{ aviso.autor }} · {{ aviso.creado | date:'dd/MM/yyyy' }}</small>
+</section>
